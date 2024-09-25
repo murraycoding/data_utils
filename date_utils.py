@@ -1,6 +1,7 @@
 """ Functions to extract, format or transform dates """
 ### IMPORTS ###
 from datetime import date, datetime
+import re
 
 ### FUNCTION DEFINITIONS ###
 def format_date(month, day, year = None):
@@ -38,3 +39,24 @@ def format_date(month, day, year = None):
         raise value_error
 
     return date_obj
+
+def pull_date_from_filename(file_name:str):
+    """
+    Input: filename as string
+    Output: Date object made with the format_date function
+    """
+    # type checking
+    if not isinstance(file_name, str):
+        print("The function pull_date_from_filename requires a string input")
+        raise TypeError
+    
+    # pattern matching
+    long_date_pattern = r"\d{2,4}\W\d{2,4}\W\d{2,4}"
+    long_date_results = re.search(file_name, long_date_pattern)
+
+    short_date_pattern = r"\d{2,4}\W\d{2,4}"
+    short_date_results = re.search(file_name, short_date_pattern)
+
+    
+
+

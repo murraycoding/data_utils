@@ -44,6 +44,9 @@ def test_filename_date_type_check1():
     with pytest.raises(TypeError):
         pull_date_from_filename(["Testing"])
 
+def test_filename_DateError1():
+    with pytest.raises(DateError):
+        pull_date_from_filename("Testing 15/05-2024")
+
 def test_filename_date_shortdate1():
     assert pull_date_from_filename("CT-1635 Members 20-08-2024.xlsx") == date(2024,8,20)
-

@@ -3,6 +3,11 @@
 from datetime import date, datetime
 import re
 
+class DateError(Exception):
+    def __init__(self, message, function = None):
+        super().__init__(message)
+        self.function = function
+
 ### FUNCTION DEFINITIONS ###
 def format_date(month, day, year = None):
     """

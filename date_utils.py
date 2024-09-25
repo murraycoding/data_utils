@@ -49,6 +49,9 @@ def pull_date_from_filename(file_name:str):
     """
     Input: filename as string
     Output: Date object made with the format_date function
+
+    Date patterns accounted for:
+    Date-Month-Year
     """
     # type checking
     if not isinstance(file_name, str):
@@ -57,11 +60,37 @@ def pull_date_from_filename(file_name:str):
     
     # pattern matching
     long_date_pattern = r"\d{2,4}\W\d{2,4}\W\d{2,4}"
-    long_date_results = re.search(file_name, long_date_pattern)
+    long_date_results = re.search(long_date_pattern, file_name)
 
     short_date_pattern = r"\d{2,4}\W\d{2,4}"
-    short_date_results = re.search(file_name, short_date_pattern)
+    short_date_results = re.search(short_date_pattern, file_name)
 
+    if long_date_pattern:
+        date_string = long_date_results[0]
+        split_char = re.search(r"\W", date_string)[0]
+        date_list = date_string.split(split_char)
+
+        if len(date_list) != 3:
+            raise DateError("date_list did not have three parts", function="pull_date_from_filename")
+        
+        if len(date_list[2]) == 4:
+            if int(date_list[1]) > 12: 
+                # month - day - year (##, ##, ####)
+                return format_date(date_list[0], date_list[1], date_list[2])
+            else:
+                # day - month - year (##, ##, ####)
+                return format_date(date_list[1], date_list[0], date_list[2])
+        
+    elif short_date_pattern:
+        date_string = short_date_results[0]
+    else:
+        return None
     
+### SCRIPT FOR TESTING ###
+filename_1 = "CT-1635 Members 20-08-2024.xlsx"
+
+pull_date_from_filename(filename_1)
+
+
 
 

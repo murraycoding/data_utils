@@ -30,3 +30,17 @@ def test_format_date_with_0n_year():
 
 def test_format_date_with_four_digit_year():
     assert format_date(12,13,2024) == date(2024,12,13)
+
+# pull date from filename tests
+def test_filename_date_type_check1():
+    with pytest.raises(TypeError):
+        pull_date_from_filename(24)
+
+def test_filename_date_type_check2():
+    with pytest.raises(TypeError):
+        pull_date_from_filename({"Testing"})
+
+def test_filename_date_type_check1():
+    with pytest.raises(TypeError):
+        pull_date_from_filename(["Testing"])
+
